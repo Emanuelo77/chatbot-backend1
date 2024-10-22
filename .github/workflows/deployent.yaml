@@ -3,7 +3,7 @@ name: Deploy to AWS Lambda
 on:
   push:
     branches:
-      - main   # Oder Emanuelo, je nachdem welchen Branch du verwendest
+      - main   # Oder "Emanuelo", je nachdem welchen Branch du verwendest
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js environment
       uses: actions/setup-node@v2
       with:
-        node-version: '14'   # Passe dies an, je nach Node.js-Version
+        node-version: '14'   # Passe dies an deine Node.js-Version an
 
     - name: Install dependencies
       run: npm install   # Installiert die Abhängigkeiten, falls du welche hast
@@ -25,10 +25,11 @@ jobs:
       run: zip -r function.zip .   # Packt deinen Lambda-Code in eine ZIP-Datei
 
     - name: Deploy to AWS Lambda
-      uses: aws-actions/aws-lambda-deploy@v1.1.0
+      uses: r0adkll/aws-lambda-deploy@v1   # Diese Action funktioniert für AWS Lambda Deployments
       with:
         function-name: CustomerSupportChatbot  # Ändere dies zu deinem tatsächlichen Lambda-Funktionsnamen
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-central-1   # Passe dies an deine AWS-Region an
         zip-file: function.zip   # Die ZIP-Datei, die hochgeladen wird
+
