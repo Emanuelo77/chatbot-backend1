@@ -1,0 +1,32 @@
+export const handler = async (event) => {
+    let botResponse;
+
+    try {
+        // Überprüfen, ob event.body existiert und es ein gültiges JSON ist
+        const userInput = event.body ? JSON.parse(event.body).message : null;
+
+        if (!userInput) {
+            botResponse = 'Entschuldigung, es wurde keine Nachricht übermittelt.';
+        } else {
+            // Basierend auf der Eingabe eine Antwort generieren
+            if (userInput.toLowerCase().includes('hallo')) {
+                botResponse = 'Hallo! Wie kann ich dir helfen?';
+            } else if (userInput.toLowerCase().includes('hilfe')) {
+                botResponse = 'Ich kann dir bei Fragen zu unseren Dienstleistungen helfen. Was möchtest du wissen?';
+            } else {
+                botResponse = 'Entschuldigung, ich habe das nicht verstanden. Kannst du das bitte anders formulieren?';
+            }
+        }
+
+    } catch (error) {
+        // Fehlerbehandlung für den Fall, dass JSON.parse fehlschlägt
+        botResponse = 'Es gab ein Problem bei der Verarbeitung deiner Anfrage.';
+    }
+
+    // Antwort als JSON zurückgeben
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify({ reply: botResponse }),
+    };
+    return response;
+};
